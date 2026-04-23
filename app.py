@@ -9,6 +9,8 @@ load_dotenv()
 # Try environment variable first, then Streamlit secrets
 try:
     api_key = st.secrets["GROQ_API_KEY"]
+
+st.write("Key found:", bool(api_key))  # shows True or False
 except:
     api_key = os.getenv("GROQ_API_KEY")
 
