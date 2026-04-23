@@ -7,9 +7,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 try:
-    api_key = st.secrets["GROQ_API_KEY"]
-except Exception as e:
     api_key = os.getenv("GROQ_API_KEY")
+except Exception as e:
+    api_key = st.secrets["GROQ_API_KEY"]
+
 
 st.write("Key found:", bool(api_key))  # debug line - remove later
 
