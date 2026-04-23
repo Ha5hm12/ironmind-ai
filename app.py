@@ -6,8 +6,16 @@ from dotenv import load_dotenv
 # ── 1. Setup ──────────────────────────────────────────────────────────────────
 load_dotenv()
 
-# Works both locally (.env) AND on Streamlit Cloud (st.secrets)
-api_key = os.getenv("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY")
+# Try environment variable first, then Streamlit secrets
+try:
+    api_key = st.secrets["GROQ_API_KEY"]
+except:
+    api_key = os.getenv("GROQ_API_KEY")
+
+if not api_key:
+    st.error("❌ GROQ_API_KEY not found! Please add it in Streamlit Secrets.")
+    st.stop()
+
 client = Groq(api_key=api_key)
 
 # ── 2. System Prompt (the "personality" of your bot) ─────────────────────────
