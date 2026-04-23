@@ -6,17 +6,18 @@ from dotenv import load_dotenv
 # ── 1. Setup ──────────────────────────────────────────────────────────────────
 load_dotenv()
 
-# Try environment variable first, then Streamlit secrets
 try:
     api_key = st.secrets["GROQ_API_KEY"]
-
-st.write("Key found:", bool(api_key))  # shows True or False
-except:
+except Exception as e:
     api_key = os.getenv("GROQ_API_KEY")
 
+st.write("Key found:", bool(api_key))  # debug line - remove later
+
 if not api_key:
-    st.error("❌ GROQ_API_KEY not found! Please add it in Streamlit Secrets.")
+    st.error("❌ GROQ_API_KEY not found!")
     st.stop()
+
+client = Groq(api_key=api_key)
 
 client = Groq(api_key=api_key)
 
